@@ -11,8 +11,9 @@ description: >
   involves acquiring a new technical skill through structured practice.
   Also trigger when the user asks questions during an ongoing learning project
   created by this skill — they may be stuck on a task and need Socratic guidance.
-  Do NOT trigger for one-off coding tasks, debugging existing code, or questions
-  where the user clearly wants a direct answer rather than learning guidance.
+  Also trigger for code review of learning exercises — "帮我批改", "review 一下",
+  "check my work", "帮我 review". Do NOT trigger for one-off coding tasks,
+  debugging existing code, or direct-answer questions.
 ---
 
 # Learn by Doing — 实践驱动学习引导
@@ -54,7 +55,7 @@ produces understanding. This is non-negotiable.
   the fix
 - **Architecture diagrams** — high-level system design in text or mermaid format
 
-## Two Modes of Operation
+## Three Modes of Operation
 
 ### Mode 1: Creating a Learning Path
 
@@ -98,7 +99,7 @@ design. Then:
 
 Generate the actual directory structure and README files:
 
-\`\`\`
+```
 <topic>/
 ├── CHECKLIST.md              # Master task list with all projects
 ├── 01-chapter-name/
@@ -112,7 +113,7 @@ Generate the actual directory structure and README files:
 ├── 02-chapter-name/
 │   └── ...
 └── notes/                    # Empty dir for learner's own notes
-\`\`\`
+```
 
 Each project README includes documentation links inline with tasks:
 - Task description with thinking prompts
@@ -122,7 +123,114 @@ Each project README includes documentation links inline with tasks:
 Save everything to the user's workspace folder. The learner's own code goes
 into these project directories too.
 
-### Mode 2: Guiding During Practice (Socratic Mode)
+### Mode 2: Code Review / 批改 (Review Mode)
+
+When the user says they've completed a task and asks for review (e.g., "帮我批改",
+"review 一下", "帮我看看写得怎么样", "check my work", "帮我 review"),
+follow this process:
+
+#### Step 1 — Locate and Understand Context
+
+1. Find the user's exercise file(s) for the specified task
+2. Read the corresponding project README to understand the task requirements
+   and sub-task checklist
+3. Cross-reference each sub-task's requirements with what the user actually wrote
+
+#### Step 2 — Run and Verify
+
+1. Execute the code to confirm it runs without errors
+2. Verify output correctness against expected behavior
+3. Note any runtime warnings or edge cases
+
+#### Step 3 — Add Inline Review Comments
+
+Write `[AI 批注]` comments **directly in the user's code file**, placed
+immediately after the relevant code block. This is the core deliverable —
+comments live in the file itself, not in a separate document or chat message.
+
+**Comment markers:**
+
+- `# [AI 批注] ✅` — Correct, well done. Brief affirmation of what's good.
+- `# [AI 批注] ❌` — Conceptual error or incorrect implementation. Explain
+  what's wrong and why. Suggest direction ("look into X", "the issue is Y")
+  but keep fixes minimal — the learner should correct it themselves.
+- `# [AI 批注] ⚠️` — Works but has issues: doesn't match task requirements,
+  fragile approach, non-idiomatic, or missing depth the task asked for.
+- `# [AI 批注] 💡` — Good question raised by the learner, or an opportunity
+  to go deeper. Provide context, related concepts, or exploration directions.
+- `# [AI 批注] 📝` — Multi-point annotation for notes/essays where each
+  point needs individual evaluation (e.g., "三个差异点" reviewed one by one).
+
+**Comment content guidelines:**
+
+- Point out the problem, explain *why* it's wrong or suboptimal
+- For code issues, suggest direction but keep corrected code to short
+  illustrative snippets (1-3 lines max) — the learner has already attempted
+  the task, so showing the idiomatic pattern is fair game after their own
+  attempt, but full rewrites are not
+- When reviewing the learner's written notes/thinking, evaluate conceptual
+  accuracy and **terminology precision** (e.g., "类型推断" vs "隐式类型转换"
+  are different concepts — call this out)
+- Connect feedback to practical relevance ("in real projects this matters
+  because...")
+- If the learner's code works but doesn't match what the task asked for,
+  point out the gap specifically (e.g., "题目要求提取姓名，你返回了完整字典")
+
+#### Step 4 — Overall Evaluation Block
+
+At the end of the file, add a summary evaluation:
+
+```
+# ============================================================
+# [AI 批注] 📊 整体评价
+# ============================================================
+#
+# 完成度：★★★☆☆ (3/5)
+# - [what's covered, what's missing]
+#
+# 代码质量：★★★☆☆ (3/5)
+# - [specific observations]
+#
+# 理解深度：★★★★☆ (4/5)
+# - [what they understood well, what needs correction]
+#
+# 需要修正的 N 件事（按优先级）：
+# 1. 🔴 [critical — conceptual error or broken requirement]
+# 2. 🟡 [recommended — non-idiomatic, fragile, or incomplete]
+# 3. 🟢 [optional — enhancement or deeper exploration]
+```
+
+#### Step 5 — Verify File Integrity
+
+After adding all comments, **run the code again** to confirm it still executes
+correctly. Review comments must be syntactically valid comments that don't
+break the file.
+
+#### Step 6 — Summarize to User
+
+In chat, provide a concise summary: what needs fixing (critical), what's done
+well (reinforce), what can go deeper (suggest), and overall progress status.
+Keep it short — the detailed feedback is already in the file.
+
+#### Re-review Protocol
+
+When the user says they've fixed the issues and asks for another review:
+
+1. Re-read the updated file
+2. Update existing `[AI 批注]` markers:
+   - Change `❌`/`⚠️` to `✅ 已修正` for properly fixed issues
+   - Keep unfixed comments as-is
+   - Add new comments only if the fix introduced new problems
+3. Update the overall evaluation block with revised scores
+4. In chat, clearly state what improved and what remains
+
+**Handling pushback:** If the learner disagrees with a comment, take it
+seriously. Re-read their code and the task requirements carefully. If they're
+right, acknowledge the mistake, correct the comment in the file, and apologize
+concisely. If the comment was valid but poorly worded, rewrite it more
+precisely. The goal is accurate feedback, not winning arguments.
+
+### Mode 3: Guiding During Practice (Socratic Mode)
 
 When the user is working through a project and asks for help, you operate in
 strict Socratic mode. The protocol:
