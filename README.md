@@ -54,7 +54,41 @@ how-to-read-a-book/
 
 ## Usage
 
-These skills are designed to work with Claude's skill system. Add them to your \`.claude/skills/\` directory or reference them in your Claude configuration.
+### One-command install
+
+Run `./install.sh` from the repo root to symlink every skill into your
+agent's skill directory. Symlinks are used so `git pull` updates propagate
+automatically — no copy, no drift.
+
+\`\`\`
+./install.sh                   # install to all supported agents
+./install.sh claude            # install to Claude Code only
+./install.sh claude codex      # install to both explicitly
+./install.sh --dry-run         # show what would happen, change nothing
+./install.sh --force           # replace stale symlinks
+./install.sh --help
+\`\`\`
+
+Supported agents and their skill directories:
+
+| Agent | Target |
+|---|---|
+| `claude` | `~/.claude/skills/` |
+| `codex` | `~/.agents/skills/` |
+
+The script auto-discovers every `<skill-name>/SKILL.md` in this repo.
+Re-running is safe (idempotent): already-correct links are left alone,
+non-symlinks are refused, and stale symlinks require `--force`.
+
+### Manual install
+
+If you'd rather not run the script, just symlink the skill directories
+yourself:
+
+\`\`\`
+ln -s "$(pwd)/learn-by-doing"       ~/.claude/skills/learn-by-doing
+ln -s "$(pwd)/how-to-read-a-book"   ~/.claude/skills/how-to-read-a-book
+\`\`\`
 
 ## License
 
