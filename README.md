@@ -52,6 +52,33 @@ how-to-read-a-book/
     └── social-science.md
 \`\`\`
 
+### trading-article-writer
+
+An evidence-led writing workflow for personal investment blogs, market theses,
+trade journals, and Chankay Trading posts. It turns research into a publishable
+first-person narrative while preserving uncertainty and requiring explicit
+review before any CMS publication.
+
+**Key features:**
+
+- Separates reported facts, derived conclusions, and personal trading rules
+- Covers thesis, trade expression, catalysts, disconfirmers, and monitoring
+- Selects Mermaid diagrams by meaning instead of repeating flowcharts
+- Prevents unsupported targets, allocations, and accidental position disclosure
+- Produces review-ready title, excerpt, slug, tag, and Markdown content
+- Requires explicit approval before any external publishing action
+
+**Structure:**
+
+\`\`\`
+trading-article-writer/
+├── SKILL.md
+├── agents/
+│   └── openai.yaml
+└── references/
+    └── mermaid-editorial-guide.md
+\`\`\`
+
 ## Usage
 
 ### One-command install
@@ -88,6 +115,7 @@ yourself:
 \`\`\`
 ln -s "$(pwd)/learn-by-doing"       ~/.claude/skills/learn-by-doing
 ln -s "$(pwd)/how-to-read-a-book"   ~/.claude/skills/how-to-read-a-book
+ln -s "$(pwd)/trading-article-writer" ~/.agents/skills/trading-article-writer
 \`\`\`
 
 ## License

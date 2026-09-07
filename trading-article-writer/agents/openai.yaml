@@ -1,0 +1,4 @@
+interface:
+  display_name: "Trading Article Writer"
+  short_description: "Write evidence-led trading essays with Mermaid visuals"
+  default_prompt: "Use $trading-article-writer to turn my investment research into a review-ready Trading article."
