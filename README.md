@@ -18,12 +18,12 @@ A practice-driven technical learning guide that creates project-based learning p
 
 **Structure:**
 
-\`\`\`
+```text
 learn-by-doing/
 ├── SKILL.md                         # Main skill definition
 └── references/
     └── project-design-guide.md      # Project design principles
-\`\`\`
+```
 
 ### how-to-read-a-book
 
@@ -39,7 +39,7 @@ A disciplined reading protocol distilled from Mortimer Adler & Charles Van Doren
 
 **Structure:**
 
-\`\`\`
+```text
 how-to-read-a-book/
 ├── SKILL.md                         # Main skill: philosophy, 4 modes, 11 rules, 5 steps
 └── references/
@@ -50,7 +50,7 @@ how-to-read-a-book/
     ├── science-and-math.md
     ├── philosophy.md
     └── social-science.md
-\`\`\`
+```
 
 ### trading-article-writer
 
@@ -70,14 +70,14 @@ review before any CMS publication.
 
 **Structure:**
 
-\`\`\`
+```text
 trading-article-writer/
 ├── SKILL.md
 ├── agents/
 │   └── openai.yaml
 └── references/
     └── mermaid-editorial-guide.md
-\`\`\`
+```
 
 ## Usage
 
@@ -87,14 +87,14 @@ Run `./install.sh` from the repo root to symlink every skill into your
 agent's skill directory. Symlinks are used so `git pull` updates propagate
 automatically — no copy, no drift.
 
-\`\`\`
+```bash
 ./install.sh                   # install to all supported agents
 ./install.sh claude            # install to Claude Code only
 ./install.sh claude codex      # install to both explicitly
 ./install.sh --dry-run         # show what would happen, change nothing
 ./install.sh --force           # replace stale symlinks
 ./install.sh --help
-\`\`\`
+```
 
 Supported agents and their skill directories:
 
@@ -112,11 +112,11 @@ non-symlinks are refused, and stale symlinks require `--force`.
 If you'd rather not run the script, just symlink the skill directories
 yourself:
 
-\`\`\`
+```bash
 ln -s "$(pwd)/learn-by-doing"       ~/.claude/skills/learn-by-doing
 ln -s "$(pwd)/how-to-read-a-book"   ~/.claude/skills/how-to-read-a-book
 ln -s "$(pwd)/trading-article-writer" ~/.agents/skills/trading-article-writer
-\`\`\`
+```
 
 ## License
 
